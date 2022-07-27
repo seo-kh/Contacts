@@ -56,7 +56,7 @@ struct ContactDrawerView: View {
                         
                         List {
                             NavigationLink("연락처", destination: ContactListView())
-                            NavigationLink("세팅", destination: Text("세팅"))
+                            NavigationLink("세팅", destination: ContactSettingView())
                         }
                     }
                 }

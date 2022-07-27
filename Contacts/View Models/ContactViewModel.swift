@@ -14,7 +14,8 @@ class ContactViewModel: ObservableObject {
         ContactModel(name: "경수", phoneNumber: "01033907787", image: "person.fill.turn.down"),
         ContactModel(name: "진수", phoneNumber: "01077463219", image: "person.2"),
     ]
-
+    @Published var column: Float = 2.0
+    
     func createContact(contact: ContactModel) {
         contacts.append(contact)
     }

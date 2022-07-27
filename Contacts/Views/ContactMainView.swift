@@ -12,7 +12,7 @@ struct ContactMainView: View {
 
     @EnvironmentObject var contactViewModel: ContactViewModel
     
-    let columns: [GridItem] = .init(repeating: .init(.flexible(), spacing: 10, alignment: .center), count: 2)
+    @State private var columns: [GridItem] = .init(repeating: .init(.flexible(), spacing: 10, alignment: .center), count: 2)
     @State private var addButtonActivate: Bool = false
     @State private var preferenceButtonActivate: Bool = false
     
@@ -26,6 +26,9 @@ struct ContactMainView: View {
                 } //: LOOP
             } //: VGRID
         } //: SCROLL
+        .onAppear(perform: {
+            columns = .init(repeating: .init(.flexible(), spacing: 10, alignment: .center), count: Int(contactViewModel.column))
+        })
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .padding()
         .navigationTitle(preferenceButtonActivate ? "" : "연락처")
@@ -93,6 +96,7 @@ extension ContactMainView {
                     Text(contact.name)
                         .bold()
                         .lineLimit(1)
+                        .padding(.vertical, 1)
                     Text(contact.phoneNumber)
                         .foregroundColor(.secondary)
                         .lineLimit(1)

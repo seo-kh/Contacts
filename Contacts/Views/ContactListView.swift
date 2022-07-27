@@ -10,9 +10,19 @@ import SwiftUI
 struct ContactListView: View {
     @EnvironmentObject var contactViewModel: ContactViewModel
     
+    @State private var searchText: String = ""
+    
+    var searchContacts: [ContactModel] {
+        if searchText.isEmpty {
+            return contactViewModel.contacts
+        } else {
+            return contactViewModel.contacts.filter { $0.name.contains(searchText) }
+        }
+    }
+    
     var body: some View {
         List{
-            ForEach(contactViewModel.contacts) {
+            ForEach(searchContacts) {
                 contact in
                 HStack(alignment: .center, spacing: 8) {
                     Image(systemName: contact.image)
@@ -33,6 +43,7 @@ struct ContactListView: View {
             .onDelete(perform: contactViewModel.delete)
             .onMove(perform: contactViewModel.meve)
         } //: LIST
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "연락처")
         .navigationTitle("연락처 목록")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
