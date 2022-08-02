@@ -13,7 +13,7 @@ struct ContactMainView: View {
     @EnvironmentObject var contactViewModel: ContactViewModel
     
     @State private var columns: [GridItem] = .init(repeating: .init(.flexible(), spacing: 10, alignment: .center), count: 2)
-    @State private var addButtonActivate: Bool = false
+    
     @State private var preferenceButtonActivate: Bool = false
     
     // MARK: - BODY
@@ -37,9 +37,9 @@ struct ContactMainView: View {
             preferenceButton
             addButton
         }
-        .sheet(isPresented: $addButtonActivate) {
+        .sheet(isPresented: $contactViewModel.addButtonActivate) {
             NavigationView {
-                ContactAddView()
+                ContactCRUDView()
             }
         }
         .overlay {
@@ -55,9 +55,7 @@ extension ContactMainView {
     private var preferenceButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
             Button {
-                
-                    preferenceButtonActivate = true                    
-                
+                    preferenceButtonActivate = true
             } label: {
                 Label("세팅", systemImage: "gear")
                     .labelStyle(.iconOnly)
@@ -70,7 +68,7 @@ extension ContactMainView {
     private var addButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
             Button {
-                addButtonActivate = true
+                contactViewModel.addButtonActivate = true
             } label: {
                 Label("연락처 생성", systemImage: "plus")
                     .labelStyle(.iconOnly)
@@ -82,32 +80,39 @@ extension ContactMainView {
     /// 연락처 세부 뷰
     @ViewBuilder
     private func contactInfoView(contact: ContactModel) -> some View {
-        /// 메인 이미지
-        Image(systemName: contact.image)
-            .resizable()
-            .aspectRatio(1.0 ,contentMode: .fill)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding()
-            .border(.quaternary, width: 3.0)
-            .cornerRadius(8.0)
-            .overlay(alignment: .bottom) {
-                /// 세부 정보: 이름, 번호
-                VStack(alignment: .leading) {
-                    Text(contact.name)
-                        .bold()
-                        .lineLimit(1)
-                        .padding(.vertical, 1)
-                    Text(contact.phoneNumber)
-                        .foregroundColor(.secondary)
-                        .lineLimit(1)
-                }
-                .padding(3)
-                .frame(maxWidth: .infinity)
-                .background(
-                    Material.ultraThin
-                )
+        Button {
+            contactViewModel.addButtonActivate = true
+            contactViewModel.contact = contact
+        } label: {
+            /// 메인 이미지
+            Image(systemName: contact.image)
+                .resizable()
+                .aspectRatio(1.0 ,contentMode: .fill)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding()
+                .border(.quaternary, width: 3.0)
                 .cornerRadius(8.0)
-            }
+                .overlay(alignment: .bottom) {
+                    /// 세부 정보: 이름, 번호
+                    VStack(alignment: .leading) {
+                        Text(contact.name)
+                            .bold()
+                            .lineLimit(1)
+                            .padding(.vertical, 1)
+                        Text(contact.phoneNumber)
+                            .foregroundColor(.secondary)
+                            .lineLimit(1)
+                    }
+                    .padding(3)
+                    .frame(maxWidth: .infinity)
+                    .background(
+                        Material.ultraThin
+                    )
+                    .cornerRadius(8.0)
+                }
+        } //: BUTTON
+        .foregroundColor(.primary)
+
     }
 }
 

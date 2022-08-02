@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+enum ContactState: Hashable {
+    case create
+    case edit
+}
+
 class ContactViewModel: ObservableObject {
     @Published var contacts: [ContactModel] = [
         ContactModel(name: "철수", phoneNumber: "01045325353", image: "person"),
@@ -15,6 +20,8 @@ class ContactViewModel: ObservableObject {
         ContactModel(name: "진수", phoneNumber: "01077463219", image: "person.2"),
     ]
     @Published var column: Float = 2.0
+    @Published var contact: ContactModel? = nil
+    @Published var addButtonActivate: Bool = false
     
     func createContact(contact: ContactModel) {
         contacts.append(contact)

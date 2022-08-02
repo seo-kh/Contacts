@@ -24,31 +24,47 @@ struct ContactListView: View {
         List{
             ForEach(searchContacts) {
                 contact in
-                HStack(alignment: .center, spacing: 8) {
-                    Image(systemName: contact.image)
-                        .resizable()
-                        .aspectRatio(1.0, contentMode: .fill)
-                        .frame(width: 30, height: 30)
-                        .padding()
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(contact.name)
-                            .font(.title3)
-                            .fontWeight(.black)
-                        Text(contact.phoneNumber)
-                            .foregroundColor(.secondary)
-                    } //: VSTACK
-                } //: HSTACK
+                contactListCell(contact: contact)
             } //: LOOP
             .onDelete(perform: contactViewModel.delete)
             .onMove(perform: contactViewModel.meve)
         } //: LIST
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "연락처")
+        .searchable(
+            text: $searchText,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: "연락처"
+        )
         .navigationTitle("연락처 목록")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             EditButton()
         }
+    }
+}
+
+extension ContactListView {
+    func contactListCell(contact: ContactModel) -> some View {
+        Button {
+            contactViewModel.contact = contact
+            contactViewModel.addButtonActivate = true
+        } label: {
+            HStack(alignment: .center, spacing: 8) {
+                Image(systemName: contact.image)
+                    .resizable()
+                    .aspectRatio(1.0, contentMode: .fill)
+                    .frame(width: 30, height: 30)
+                    .padding()
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(contact.name)
+                        .font(.title3)
+                        .fontWeight(.black)
+                    Text(contact.phoneNumber)
+                        .foregroundColor(.secondary)
+                } //: VSTACK
+            } //: HSTACK
+        } //: BUTTON
+        .tint(.primary)
     }
 }
 

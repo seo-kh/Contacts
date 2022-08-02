@@ -1,5 +1,5 @@
 //
-//  ContactAddView.swift
+//  ContactCRUDView.swift
 //  Contacts
 //
 //  Created by 서광현 on 2022/07/27.
@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-struct ContactAddView: View {
+struct ContactCRUDView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var contactViewModel: ContactViewModel
     
     @State private var nameText: String = ""
     @State private var phoneNumberText: String = ""
     @State private var image: String = "person.fill"
-    
     
     
     var body: some View {
@@ -25,7 +24,7 @@ struct ContactAddView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 100, height: 100)
-                    NavigationLink("사진 추가", destination: ImageSelectionView(image: $image))
+                    NavigationLink("사진 선택", destination: ImageSelectionView(image: $image))
                     
                 }
                 
@@ -46,7 +45,7 @@ struct ContactAddView: View {
             } //: SCROLL
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .padding()
-            .navigationTitle("연락처 저장")
+            .navigationTitle(contactViewModel.contact == nil ? "연락처 저장" : "연락처 편집")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -58,13 +57,24 @@ struct ContactAddView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("추가"){
+                    Button(contactViewModel.contact == nil ? "추가" : "완료") {
                         let contact = ContactModel(name: nameText, phoneNumber: phoneNumberText, image: image)
                         contactViewModel.createContact(contact: contact)
                         dismiss()
                     }
+                    
                 }
             }
+        } //: SCROLL
+        .onAppear {
+            if let contact = contactViewModel.contact {
+                nameText = contact.name
+                phoneNumberText = contact.phoneNumber
+                image = contact.image
+            }
+        }
+        .onDisappear {
+            contactViewModel.contact = nil
         }
     }
 }
