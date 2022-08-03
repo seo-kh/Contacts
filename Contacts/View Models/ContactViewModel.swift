@@ -27,11 +27,18 @@ class ContactViewModel: ObservableObject {
         contacts.append(contact)
     }
     
+    func updateContact(contact: ContactModel) {
+        if let selectedContact = self.contact {
+            let index: Int = self.contacts.firstIndex { $0.id == selectedContact.id }!
+            self.contacts[index] = contact
+        }
+    }
+    
     func delete(at offset: IndexSet) {
         contacts.remove(atOffsets: offset)
     }
     
-    func meve(from: IndexSet, to: Int) {
+    func move(from: IndexSet, to: Int) {
         contacts.move(fromOffsets: from, toOffset: to)
     }
 }

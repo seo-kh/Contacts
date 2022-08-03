@@ -27,7 +27,7 @@ struct ContactListView: View {
                 contactListCell(contact: contact)
             } //: LOOP
             .onDelete(perform: contactViewModel.delete)
-            .onMove(perform: contactViewModel.meve)
+            .onMove(perform: contactViewModel.move)
         } //: LIST
         .searchable(
             text: $searchText,

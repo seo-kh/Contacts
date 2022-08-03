@@ -59,7 +59,7 @@ struct ContactCRUDView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(contactViewModel.contact == nil ? "추가" : "완료") {
                         let contact = ContactModel(name: nameText, phoneNumber: phoneNumberText, image: image)
-                        contactViewModel.createContact(contact: contact)
+                        contactViewModel.updateContact(contact: contact)
                         dismiss()
                     }
                     
