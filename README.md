@@ -14,5 +14,5 @@
 ## Demo
 
 <p align=center>
-    <img style="border: 1px solid black; border-radius: 65px" src="./contact.gif" width=50%>
+    <img style="border: 3px solid black;" src="./contact.gif" width=30%>
 </p>
