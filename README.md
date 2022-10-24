@@ -8,3 +8,11 @@
 * `연락처 생성`
 * `연락처 수정`
 * `연락처 삭제`
+* `연락처 그리드 설정`
+* `연락처 검색`
+
+## Demo
+
+<p align=center>
+    <img style="border: 1px solid black; border-radius: 65px" src="./contact.gif" width=50%>
+</p>
