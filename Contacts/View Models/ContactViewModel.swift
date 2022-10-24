@@ -23,6 +23,13 @@ class ContactViewModel: ObservableObject {
     @Published var contact: ContactModel? = nil
     @Published var addButtonActivate: Bool = false
     
+    func readContact(contact: ContactModel) -> Int {
+        if let selectedContact = self.contact {
+            return self.contacts.firstIndex{ $0.id == selectedContact.id } ?? 0
+        }
+        return 0
+    }
+    
     func createContact(contact: ContactModel) {
         contacts.append(contact)
     }
@@ -36,6 +43,11 @@ class ContactViewModel: ObservableObject {
     
     func delete(at offset: IndexSet) {
         contacts.remove(atOffsets: offset)
+    }
+    
+    @discardableResult
+    func delete(index: Int) -> ContactModel {
+        return contacts.remove(at: index)
     }
     
     func move(from: IndexSet, to: Int) {

@@ -57,10 +57,20 @@ struct ContactCRUDView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(contactViewModel.contact == nil ? "추가" : "완료") {
-                        let contact = ContactModel(name: nameText, phoneNumber: phoneNumberText, image: image)
-                        contactViewModel.updateContact(contact: contact)
-                        dismiss()
+                    if contactViewModel.contact == nil {
+                        Button("추가") {
+                            let contact = ContactModel(name: nameText, phoneNumber: phoneNumberText, image: image)
+                            contactViewModel.createContact(contact: contact)
+                            dismiss()
+                        }
+                    } else {
+                        Button("완료") {
+                            let contact = ContactModel(name: nameText, phoneNumber: phoneNumberText, image: image)
+                            contactViewModel.updateContact(contact: contact)
+                            contactViewModel.contact = nil
+                            dismiss()
+                        }
+
                     }
                     
                 }
@@ -72,9 +82,6 @@ struct ContactCRUDView: View {
                 phoneNumberText = contact.phoneNumber
                 image = contact.image
             }
-        }
-        .onDisappear {
-            contactViewModel.contact = nil
         }
     }
 }

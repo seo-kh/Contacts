@@ -110,6 +110,10 @@ extension ContactMainView {
                     )
                     .cornerRadius(8.0)
                 }
+                .onLongPressGesture {
+                    let index = contactViewModel.readContact(contact: contact)
+                    contactViewModel.delete(index: index)
+                }
         } //: BUTTON
         .foregroundColor(.primary)
 
